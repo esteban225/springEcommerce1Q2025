@@ -26,7 +26,7 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<Producto> productos;
 	
-	@OneToMany(mappedBy = "ususario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Orden> ordenes;
 
 	// constructor sin campos
