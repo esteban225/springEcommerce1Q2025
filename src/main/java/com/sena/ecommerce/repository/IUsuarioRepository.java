@@ -11,5 +11,5 @@ import com.sena.ecommerce.model.Usuario;
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 	Optional<Usuario> findByEmail(String email);
 
-	Optional<Usuario> findByUserName(String username);
+	Optional<Usuario> findByUsername(String username);
 }

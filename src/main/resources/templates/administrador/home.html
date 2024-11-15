@@ -22,15 +22,27 @@
 		</div><!-- End Page Title -->
 
 		<section class="section dashboard">
+			<div class="row align-items-top"><!--div 1-->
+				<div class="col-lg-4" th:each="producto:${productos}"><!--div 2-->
+					<div class="card">
+						<img th:src="@{./images/{img} (img=${producto.imagen})}" class="card-img-top"
+							th:alt="${producto.nombre}">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${producto.nombre}"></h5>
+							<p class="card-text" th:text="${producto.descripcion}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
 		</section>
 
 	</main><!-- End #main -->
 
 	<div th:insert="~{administrador/template_admin.html::footer}"></div>
-	
+
 	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
 			class="bi bi-arrow-up-short"></i></a>
-			
+
 	<div th:insert="~{administrador/template_admin.html::jsFiles}"></div>
 
 </body>
