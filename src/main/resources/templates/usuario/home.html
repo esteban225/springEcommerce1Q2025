@@ -16,21 +16,23 @@
 				<h1 class="display-3">Bienvenido a Spring eCommerce</h1>
 				<p class="lead">Tienda de productos en línea</p>
 			</header>
-			
+
 			<div class="row test-center">
 				<div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productos}">
 					<div class="card h-100">
-						<img class="card-img-top" th:src="@{/images/{img} (img=${producto.imagen})}" th:alt="${producto.nombre}">
+						<img class="card-img-top" th:src="@{/images/{img} (img=${producto.imagen})}"
+							th:alt="${producto.nombre}">
 						<div class="card-body">
 							<p class="card-text" th:text="${producto.nombre}"></p>
 						</div>
 						<div class="card-footer">
-							<a href="" class="btn btn-success">Ver producto</a>
+							<a th:href="@{/productoHome/{id} (id=${producto.id})}" class="btn btn-success">Ver
+								producto</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 	</main>
 
