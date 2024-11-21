@@ -99,7 +99,7 @@ public class ProductoController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Integer id) {
+	public String delete(@PathVariable Integer id, Model model) {
 		Producto p = new Producto();
 		p = productoService.get(id).get();
 		if (!p.getImagen().equals("defaul.jpg")) {
