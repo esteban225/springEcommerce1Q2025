@@ -114,6 +114,15 @@
 	</div>
 </div>
 
+<div th:fragment="search">
+	<form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
+		<input class="form-control mr-sm-2" type="search" placeholder="Buscar un producto" aria-label="Search"
+			name="nombre" autocomplete="of">
+			<br>
+		<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar <i class="bi bi-search"></i></button>
+	</form>
+</div>
+
 <div th:fragment="footer">
 	<footer id="footer" class="footer dark-background">
 
@@ -166,7 +175,8 @@
 		</div>
 
 		<div class="container copyright text-center mt-4">
-			<p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy(eCommerce)</strong> <span>All Rights Reserved</span>
+			<p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy(eCommerce)</strong> <span>All Rights
+					Reserved</span>
 			</p>
 			<div class="credits">
 				<!-- All the links in the footer should remain intact. -->

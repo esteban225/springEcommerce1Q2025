@@ -2,9 +2,9 @@ package com.sena.ecommerce.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,6 +175,16 @@ public class HomeUserController {
 		orden = new Orden();
 		detalles.clear();
 		return "redirect:/";
+	}
+
+	// metodo post para biscar productos en lavista de home usuario
+	@PostMapping("/search")
+	public String searchProducto(@RequestParam String nombre, Model model) {
+		LOGGER.info("nombre del producto: {}", nombre);
+		List<Producto> productos = productoService.findAll().stream()
+				.filter(p -> p.getNombre().toUpperCase().contains(nombre.toUpperCase())).collect(Collectors.toList());
+		model.addAttribute("productos", productos);
+		return "usuario/home";
 	}
 
 }
