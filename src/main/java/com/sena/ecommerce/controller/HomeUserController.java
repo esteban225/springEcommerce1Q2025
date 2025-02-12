@@ -26,6 +26,8 @@ import com.sena.ecommerce.service.IOrdenService;
 import com.sena.ecommerce.service.IProductoService;
 import com.sena.ecommerce.service.IUsuarioService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/") // la raiz del proyecto
 public class HomeUserController {
@@ -55,8 +57,10 @@ public class HomeUserController {
 
 	// metodo que mapea la vista de usuario en la raiz del proyecto
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
+		LOGGER.info("sesion usuario: {}", session.getAttribute("idUsuario"));
 		model.addAttribute("productos", productoService.findAll());
+		model.addAttribute("sesion", session.getAttribute("idUsuario"));
 		return "usuario/home";
 	}
 
@@ -148,8 +152,8 @@ public class HomeUserController {
 
 	// metodo para pasar a la vista del resumen de la orden
 	@GetMapping("/order")
-	public String order(Model model) {
-		Usuario u = usuarioService.findById(1).get();
+	public String order(Model model, HttpSession session) {
+		Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden);
 		model.addAttribute("usuario", u);
@@ -157,13 +161,13 @@ public class HomeUserController {
 	}
 
 	@GetMapping("/saveOrder")
-	public String saveOrder() {
+	public String saveOrder(HttpSession session) {
 		// guardar orden
 		Date fechacreacion = new Date();
 		orden.setFechacreacion(fechacreacion);
 		orden.setNumero(ordenService.generarNumeroOrden());
 		// usuario que se refenrencia en esa compra previamente logeado
-		Usuario u = usuarioService.findById(1).get();
+		Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
 		orden.setUsuario(u);
 		ordenService.save(orden);
 		// guardar detalles de la orden
