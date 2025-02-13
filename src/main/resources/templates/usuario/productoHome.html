@@ -28,7 +28,9 @@
 									th:src="@{/images/{img} (img=${producto.imagen})}" th:alt="${producto.nombre}"></a>
 						</div>
 
-						<div class="col-lg-6">
+
+						<!--formulario usuario no logeado-->
+						<div th:unless="${sesion == null}" class="col-lg-6">
 							<form th:action="@{/cart}" method="post">
 								<input type="hidden" th:value="${producto.id}" name="id">
 								<h2 class="card-title" th:text="${producto.nombre}"></h2>
@@ -49,6 +51,32 @@
 									</li>
 								</ul>
 								<button type="submit" class="btn btn-dark">Añadir al carrito</button>
+							</form>
+						</div>
+
+						<!--formulario usuario  logeado-->
+						<div th:if="${sesion == null}" class="col-lg-6">
+							<form action="" method="post">
+								<input type="hidden" th:value="${producto.id}" name="id">
+								<h2 class="card-title" th:text="${producto.nombre}"></h2>
+								<ul class="list-group">
+									<li class="list-group-item">
+										<h5
+											th:text="'Precio: ' + ${#strings.concat('$', #numbers.formatDecimal (producto.precio, 0,'POINT', 0 ,'POINT'))}">
+										</h5>
+									</li>
+									<li class="list-group-item">
+										<p th:text="'Descripción: ' + ${producto.descripcion}"></p>
+									</li>
+									<li class="list-group-item">
+										<h6>
+											Cantidad: <input type="number" id="catidad" name="cantidad"
+												autocomplete="off" min="1" th:max="${producto.cantidad}" value="1">
+										</h6>
+									</li>
+								</ul>
+								<button type="submit" class="btn btn-dark"> <a th:href="@{/usuario/login}">Añadir al
+										carrito</a></button>
 							</form>
 						</div>
 					</div>

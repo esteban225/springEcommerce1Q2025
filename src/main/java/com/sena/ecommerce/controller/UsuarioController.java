@@ -1,5 +1,6 @@
 package com.sena.ecommerce.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sena.ecommerce.model.Orden;
 import com.sena.ecommerce.model.Usuario;
+import com.sena.ecommerce.service.IOrdenService;
 import com.sena.ecommerce.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +30,9 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService usuarioService;
 
+	@Autowired
+	private IOrdenService ordenService;
+
 	@GetMapping("/registro")
 	public String createUser() {
 		return "usuario/registro";
@@ -40,11 +46,13 @@ public class UsuarioController {
 		return "redirect:/";
 	}
 
+	// metodo de redireccion al login
 	@GetMapping("/login")
 	public String login() {
 		return "usuario/login";
 	}
 
+	// metodo de acceso de usuario
 	@PostMapping("/acceder")
 	public String acceder(Usuario usuario, HttpSession session) {
 		LOGGER.info("Accesos: {}", usuario);
@@ -63,10 +71,20 @@ public class UsuarioController {
 		return "redirect:/";
 	}
 
+	//metodo para cerrar secion
 	@GetMapping("/cerrar")
 	public String serrarSesion(HttpSession session) {
 		session.removeAttribute("idUsuario");
 		return "redirect:/";
 	}
 
+	// metodo para dedirigir a la vista de compras del usuario
+	@GetMapping("/compras")
+	public String compras(HttpSession session, Model model) {
+		model.addAttribute("sesion", session.getAttribute("idUsuario"));
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
+		List<Orden> ordenes = ordenService.findByUsuario(usuario);
+		model.addAttribute("ordenes", ordenes);
+		return "usuario/compras";
+	}
 }
