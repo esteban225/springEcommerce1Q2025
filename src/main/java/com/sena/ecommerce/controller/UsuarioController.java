@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,8 +19,6 @@ import com.sena.ecommerce.service.IOrdenService;
 import com.sena.ecommerce.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/usuario")
@@ -71,7 +70,7 @@ public class UsuarioController {
 		return "redirect:/";
 	}
 
-	//metodo para cerrar secion
+	// metodo para cerrar secion
 	@GetMapping("/cerrar")
 	public String serrarSesion(HttpSession session) {
 		session.removeAttribute("idUsuario");
@@ -87,4 +86,18 @@ public class UsuarioController {
 		model.addAttribute("ordenes", ordenes);
 		return "usuario/compras";
 	}
+
+	@GetMapping("/detalle/{id}")
+	public String detalleCompra(HttpSession session, Model model, @PathVariable Integer id) {
+
+		LOGGER.info("Id orden: {}", id);
+
+		Optional<Orden> orden = ordenService.findById(id);
+		model.addAttribute("detalles", orden.get().getDetalle());
+
+		// sesión de usuario o id usuario
+		model.addAttribute("sesion", session.getAttribute("idUsuario"));
+		return "usuario/detallecompra";
+	}
+
 }

@@ -13,11 +13,12 @@
 	<main class="main"><!--contenido-->
 		<div class="container">
 
-			<h1 class="mt-4 mb-3">Spring eCommerce <small>Compras</small></h1>
+			<h1 class="mt-4 mb-3">Spring eCommerce <small>Detalles</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-				<li class="breadcrumb-item active">Compras</li>
+				<li class="breadcrumb-item"><a th:href="@{/usuario/compras}">Compras</a></li>
+				<li class="breadcrumb-item active">Detalle de la Compra</li>
 			</ol>
 
 			<div class="card mb-4">
@@ -27,19 +28,21 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th scope="col">Numero de orden</th>
-										<th scope="col">Fecha</th>
-										<th scope="col">Valor</th>
-										<th scope="col">Acción</th>
+										<th scope="col">Cantidad</th>
+										<th scope="col">Producto</th>
+										<th scope="col">Precio</th>
+										<th scope="col">Total</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="orden:${ordenes}">
-										<td th:text="${orden.numero}"></td>
-										<td th:text="${orden.fechacreacion}"></td>
-										<td  th:text="${#strings.concat('$', #numbers.formatDecimal (orden.total, 0,'POINT', 0,'POINT'))}"></td>
-										<td><a class="btn btn-success"
-												th:href="@{/usuario/detalle/{id} (id = ${orden.id})}">Ver Detalle</a>
+									<tr th:each="detalle:${detalles}">
+										<td th:text="${detalle.cantidad}"></td>
+										<td th:text="${detalle.nombre}"></td>
+										<td
+											th:text="${#strings.concat('$', #numbers.formatDecimal (detalle.precio, 0,'POINT', 0,'POINT'))}">
+										</td>
+										<td
+											th:text="${#strings.concat('$', #numbers.formatDecimal (detalle.total, 0,'POINT', 0,'POINT'))}">
 										</td>
 									</tr>
 								</tbody>

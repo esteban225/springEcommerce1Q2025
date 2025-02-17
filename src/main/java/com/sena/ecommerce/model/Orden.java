@@ -103,6 +103,17 @@ public class Orden {
 		this.usuario = usuario;
 	}
 
+	
+
+	public List<DetalleOrden> getDetalle() {
+		return detalle;
+	}
+
+
+	public void setDetalle(List<DetalleOrden> detalle) {
+		this.detalle = detalle;
+	}
+
 
 	@Override
 	public String toString() {
