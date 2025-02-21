@@ -199,5 +199,7 @@ public class HomeUserController {
 		model.addAttribute("productos", productos);
 		return "usuario/home";
 	}
+	
+	//
 
 }
