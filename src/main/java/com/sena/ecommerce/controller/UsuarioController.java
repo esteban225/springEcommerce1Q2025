@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class UsuarioController {
 	@Autowired
 	private IOrdenService ordenService;
 
+	// nuevo objeto encryptador
+	BCryptPasswordEncoder passEncode = new BCryptPasswordEncoder();
+
 	@GetMapping("/registro")
 	public String createUser() {
 		return "usuario/registro";
@@ -41,6 +45,9 @@ public class UsuarioController {
 	public String save(Usuario usuario, Model model) {
 		LOGGER.info("Usuario a registrar: {}", usuario);
 		usuario.setTipo("USER");
+
+		// encriptador de contraseña
+		usuario.setPassword(passEncode.encode(usuario.getPassword()));
 		usuarioService.save(usuario);
 		return "redirect:/";
 	}
@@ -52,14 +59,16 @@ public class UsuarioController {
 	}
 
 	// metodo de acceso de usuario
-	@PostMapping("/acceder")
+	@GetMapping("/acceder")
 	public String acceder(Usuario usuario, HttpSession session) {
 		LOGGER.info("Accesos: {}", usuario);
-		Optional<Usuario> userEmail = usuarioService.findByEmail(usuario.getEmail());
-		LOGGER.info("Usuario db obtenido: {}", userEmail.get());
-		if (userEmail.isPresent()) {
-			session.setAttribute("idUsuario", userEmail.get().getId());
-			if (userEmail.get().getTipo().equals("ADMIN")) {
+		// Optional<Usuario> userEmail = usuarioService.findByEmail(usuario.getEmail());
+		Optional<Usuario> user = usuarioService
+				.findById(Integer.parseInt(session.getAttribute("idUsuario").toString()));
+		LOGGER.info("Usuario db obtenido: {}", user.get());
+		if (user.isPresent()) {
+			session.setAttribute("idUsuario", user.get().getId());
+			if (user.get().getTipo().equals("ADMIN")) {
 				return "redirect:/administrador";
 			} else {
 				return "redirect:/";

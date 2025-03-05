@@ -27,9 +27,6 @@
 							<a href="#"><img class="imag-fluid rounded"
 									th:src="@{/images/{img} (img=${producto.imagen})}" th:alt="${producto.nombre}"></a>
 						</div>
-
-
-						<!--formulario usuario no logeado-->
 						<div th:unless="${sesion == null}" class="col-lg-6">
 							<form th:action="@{/cart}" method="post">
 								<input type="hidden" th:value="${producto.id}" name="id">
@@ -54,9 +51,9 @@
 							</form>
 						</div>
 
-						<!--formulario usuario  logeado-->
+
 						<div th:if="${sesion == null}" class="col-lg-6">
-							<form action="" method="post">
+							<form action="" method="Get">
 								<input type="hidden" th:value="${producto.id}" name="id">
 								<h2 class="card-title" th:text="${producto.nombre}"></h2>
 								<ul class="list-group">
@@ -75,7 +72,7 @@
 										</h6>
 									</li>
 								</ul>
-								<button type="submit" class="btn btn-dark"> <a th:href="@{/usuario/login}">Añadir al
+								<button type="submit" class="btn btn-dark"><a th:href="@{/usuario/login}">Añadir al
 										carrito</a></button>
 							</form>
 						</div>
